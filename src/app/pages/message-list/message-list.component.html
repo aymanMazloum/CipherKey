@@ -1,0 +1,67 @@
+<div class="container bg-dark text-light p-4 rounded shadow mt-4 bg-opacity-75" style="max-width: 700px">
+  <h3 class="mb-4">📜 My Encrypted Messages</h3>
+
+  <div *ngIf="messages.length === 0" class="alert alert-info">
+    No messages found.
+  </div>
+
+  <table class="table table-dark table-striped" *ngIf="messages.length > 0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Encrypted</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let msg of messages; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td style="max-width:220px; overflow:auto;">
+          <span class="small">{{ msg['encryptedText'] }}</span>
+        </td>
+        <td>
+          {{ msg['timestamp']?.toDate() | date:'short' }}
+        </td>
+        <td>
+          <button class="btn btn-sm btn-success me-1" (click)="openDecrypt(msg)">Decrypt</button>
+          <button class="btn btn-sm btn-warning me-1" (click)="openEdit(msg)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteMessage(msg)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="showDecrypt" class="bg-secondary bg-opacity-75 border rounded p-3 mt-4">
+    <h5>Decrypt Message</h5>
+    <div class="mb-2">
+      <label>Passphrase:</label>
+      <input type="password" class="form-control" [(ngModel)]="decryptPassphrase" />
+    </div>
+    <button class="btn btn-primary btn-sm me-2" (click)="performDecrypt()">Decrypt</button>
+    <button class="btn btn-outline-light btn-sm" (click)="closeDialogs()">Close</button>
+    <div *ngIf="decryptedMessage" class="alert alert-success mt-2">
+      <strong>Decrypted:</strong> {{ decryptedMessage }}
+    </div>
+    <div *ngIf="decryptError" class="alert alert-danger mt-2">
+      {{ decryptError }}
+    </div>
+  </div>
+
+  <div *ngIf="showEdit" class="bg-secondary bg-opacity-75 border rounded p-3 mt-4">
+    <h5>Edit Message</h5>
+    <div class="mb-2">
+      <label>Original Message:</label>
+      <textarea class="form-control" [(ngModel)]="editOriginalText"></textarea>
+    </div>
+    <div class="mb-2">
+      <label>Passphrase:</label>
+      <input type="password" class="form-control" [(ngModel)]="editPassphrase" />
+    </div>
+    <button class="btn btn-warning btn-sm me-2" (click)="performEdit()">Save</button>
+    <button class="btn btn-outline-light btn-sm" (click)="closeDialogs()">Cancel</button>
+    <div *ngIf="editError" class="alert alert-danger mt-2">
+      {{ editError }}
+    </div>
+  </div>
+</div>

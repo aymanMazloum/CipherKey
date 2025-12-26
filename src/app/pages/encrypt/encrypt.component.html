@@ -1,0 +1,26 @@
+<div class="container bg-dark text-light p-4 rounded shadow mt-4 bg-opacity-75" style="max-width: 600px">
+  <h3 class="mb-4">🔐 Encrypt a Message</h3>
+
+  <form (ngSubmit)="encrypt()">
+    <div class="mb-3">
+      <label class="form-label">Message</label>
+      <textarea [(ngModel)]="message" name="message" class="form-control" rows="3" required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Passphrase</label>
+      <input [(ngModel)]="passphrase" name="passphrase" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Encrypt & Save</button>
+  </form>
+
+  <div *ngIf="encrypted" class="alert alert-success mt-4">
+    <strong>Encrypted:</strong>
+    <div class="input-group">
+      <input [value]="encrypted" class="form-control" readonly style="font-family:monospace">
+      <button class="btn btn-outline-secondary" type="button" (click)="copyEncrypted()">Copy</button>
+    </div>
+    <div *ngIf="copied" class="text-success mt-2">Copied!</div>
+  </div>
+</div>
